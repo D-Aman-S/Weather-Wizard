@@ -6,11 +6,11 @@ import 'dart:math' as math;
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MediterranesnDietView extends StatelessWidget {
+class WeatherDetails extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
   final bool isSearch;
-  const MediterranesnDietView(
+  const WeatherDetails(
       {Key? key,
       this.animationController,
       this.animation,

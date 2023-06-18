@@ -3,18 +3,18 @@ import 'package:bksmygoldassignment/home_bloc/home_bloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AreaListView extends StatefulWidget {
-  const AreaListView(
+class PopularCities extends StatefulWidget {
+  const PopularCities(
       {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
       : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
   @override
-  State<AreaListView> createState() => _AreaListViewState();
+  State<PopularCities> createState() => _AreaListViewState();
 }
 
-class _AreaListViewState extends State<AreaListView>
+class _AreaListViewState extends State<PopularCities>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   List<String> areaListData = <String>[

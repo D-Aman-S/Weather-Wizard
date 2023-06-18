@@ -1,11 +1,11 @@
 import 'package:bksmygoldassignment/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
-class WorkoutView extends StatelessWidget {
+class SearchBanner extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const WorkoutView({Key? key, this.animationController, this.animation})
+  const SearchBanner({Key? key, this.animationController, this.animation})
       : super(key: key);
 
   @override

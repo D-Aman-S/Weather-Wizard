@@ -1,9 +1,8 @@
 import 'package:bksmygoldassignment/constants/color_constants.dart';
-import 'package:bksmygoldassignment/pages/search_city/components/area_list_view.dart';
-import 'package:bksmygoldassignment/pages/search_city/components/running_view.dart';
+import 'package:bksmygoldassignment/pages/search_city/components/popular_cities.dart';
 import 'package:bksmygoldassignment/pages/search_city/components/search_view.dart';
 import 'package:bksmygoldassignment/pages/search_city/components/title_view.dart';
-import 'package:bksmygoldassignment/pages/search_city/components/workout_view.dart';
+import 'package:bksmygoldassignment/pages/search_city/components/search_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -70,7 +69,7 @@ class _TrainingScreenState extends State<TrainingScreen>
     );
 
     listViews.add(
-      WorkoutView(
+      SearchBanner(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve: const Interval((1 / count) * 2, 1.0,
@@ -91,7 +90,7 @@ class _TrainingScreenState extends State<TrainingScreen>
     );
 
     listViews.add(
-      AreaListView(
+      PopularCities(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,

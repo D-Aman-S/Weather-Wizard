@@ -1,12 +1,12 @@
 import 'package:bksmygoldassignment/constants/color_constants.dart';
 import 'package:bksmygoldassignment/home_bloc/home_bloc_bloc.dart';
-import 'package:bksmygoldassignment/models/meal_list_data.dart';
+import 'package:bksmygoldassignment/models/fore_cast_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class MealsListView extends StatefulWidget {
-  const MealsListView(
+class ForeCastListView extends StatefulWidget {
+  const ForeCastListView(
       {Key? key,
       this.mainScreenAnimationController,
       this.mainScreenAnimation,
@@ -18,10 +18,10 @@ class MealsListView extends StatefulWidget {
   final bool isSearch;
 
   @override
-  _MealsListViewState createState() => _MealsListViewState();
+  _ForeCastListViewState createState() => _ForeCastListViewState();
 }
 
-class _MealsListViewState extends State<MealsListView>
+class _ForeCastListViewState extends State<ForeCastListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -62,12 +62,12 @@ class _MealsListViewState extends State<MealsListView>
                     top: 0, bottom: 0, right: 16, left: 16),
                 itemCount: widget.isSearch
                     ? repo.forCastValuesCity.length
-                    : repo.mealsListData.length,
+                    : repo.foreCastData.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = repo.mealsListData.length > 10
+                  final int count = repo.foreCastData.length > 10
                       ? 10
-                      : repo.mealsListData.length;
+                      : repo.foreCastData.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -76,10 +76,10 @@ class _MealsListViewState extends State<MealsListView>
                                   curve: Curves.fastOutSlowIn)));
                   animationController?.forward();
 
-                  return MealsView(
-                    mealsListData: widget.isSearch
+                  return ForeCastView(
+                    foreCastData: widget.isSearch
                         ? repo.forCastValuesCity[index]
-                        : repo.mealsListData[index],
+                        : repo.foreCastData[index],
                     animation: animation,
                     animationController: animationController!,
                   );
@@ -93,12 +93,12 @@ class _MealsListViewState extends State<MealsListView>
   }
 }
 
-class MealsView extends StatelessWidget {
-  const MealsView(
-      {Key? key, this.mealsListData, this.animationController, this.animation})
+class ForeCastView extends StatelessWidget {
+  const ForeCastView(
+      {Key? key, this.foreCastData, this.animationController, this.animation})
       : super(key: key);
 
-  final MealsListData? mealsListData;
+  final ForeCastData? foreCastData;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -123,15 +123,15 @@ class MealsView extends StatelessWidget {
                       decoration: BoxDecoration(
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: Color(mealsListData!.endColor)
+                              color: Color(foreCastData!.endColor)
                                   .withOpacity(0.6),
                               offset: const Offset(1.1, 4.0),
                               blurRadius: 8.0),
                         ],
                         gradient: LinearGradient(
                           colors: <Color>[
-                            Color(mealsListData!.startColor),
-                            Color(mealsListData!.endColor),
+                            Color(foreCastData!.startColor),
+                            Color(foreCastData!.endColor),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -151,7 +151,7 @@ class MealsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              mealsListData!.titleTxt,
+                              foreCastData!.titleTxt,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: fontName,
@@ -171,7 +171,7 @@ class MealsView extends StatelessWidget {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        mealsListData!.date,
+                                        foreCastData!.date,
                                         maxLines: 2,
                                         style: TextStyle(
                                           fontFamily: fontName,
@@ -186,13 +186,13 @@ class MealsView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            mealsListData?.temp != 0
+                            foreCastData?.temp != 0
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
                                       Text(
-                                        mealsListData!.temp.toString(),
+                                        foreCastData!.temp.toString(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: fontName,
@@ -233,7 +233,7 @@ class MealsView extends StatelessWidget {
                                       padding: const EdgeInsets.all(6.0),
                                       child: Icon(
                                         Icons.add,
-                                        color: Color(mealsListData!.endColor),
+                                        color: Color(foreCastData!.endColor),
                                         size: 24,
                                       ),
                                     ),
@@ -261,7 +261,7 @@ class MealsView extends StatelessWidget {
                     child: SizedBox(
                       width: 80,
                       height: 80,
-                      child: Image.network(mealsListData!.imagePath),
+                      child: Image.network(foreCastData!.imagePath),
                     ),
                   )
                 ],

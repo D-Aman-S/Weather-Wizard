@@ -1,7 +1,7 @@
 import 'package:bksmygoldassignment/constants/color_constants.dart';
 import 'package:bksmygoldassignment/home_bloc/home_bloc_bloc.dart';
-import 'package:bksmygoldassignment/pages/auto_detect_city/components/meals_list_view.dart';
-import 'package:bksmygoldassignment/pages/auto_detect_city/components/mediterranean_diet_view.dart';
+import 'package:bksmygoldassignment/pages/auto_detect_city/components/forecast_list.dart';
+import 'package:bksmygoldassignment/pages/auto_detect_city/components/weather_details.dart';
 import 'package:bksmygoldassignment/pages/auto_detect_city/components/feelsLike.dart';
 import 'package:bksmygoldassignment/pages/search_city/components/title_view.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,7 @@ class _AutoDetectCityState extends State<AutoDetectCity>
     const int count = 9;
 
     listViews.add(
-      MediterranesnDietView(
+      WeatherDetails(
         isSearch: widget.isSearch,
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
@@ -86,7 +86,7 @@ class _AutoDetectCityState extends State<AutoDetectCity>
           animationController: widget.animationController!),
     );
     listViews.add(
-      MealsListView(
+      ForeCastListView(
         isSearch: widget.isSearch,
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(

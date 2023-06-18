@@ -2,33 +2,32 @@ import 'dart:convert';
 
 import 'package:bksmygoldassignment/constants/config.dart';
 import 'package:bksmygoldassignment/constants/example_forecast_model.dart';
-import 'package:bksmygoldassignment/models/meal_list_data.dart';
+import 'package:bksmygoldassignment/models/fore_cast_data.dart';
 import 'package:bksmygoldassignment/models/weather_data.dart';
 import 'package:bksmygoldassignment/services/base_api_service.dart';
+import 'package:bksmygoldassignment/services/location_service.dart';
 import 'package:intl/intl.dart';
-import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 
 class HomeBlockRepository {
   HomeBlockRepository() {
     weatherData = WeatherData.fromJson(exampleData);
-    getLoc();
+    getLocationData();
   }
   // auto location weather data
   WeatherData weatherData = WeatherData();
   List<WeatherData> foreCastList = [];
-  late LocationData locationData;
   String city = "";
-  List<MealsListData> mealsListData = [];
+  List<ForeCastData> foreCastData = [];
   //search city weather data
   WeatherData weatherDataByCIty = WeatherData();
   List<WeatherData> foreCastListByCity = [];
   String searchCity = "";
-  List<MealsListData> forCastValuesCity = [];
+  List<ForeCastData> forCastValuesCity = [];
 
   loadData() async {
     foreCastList = [];
-    mealsListData = [];
+    foreCastData = [];
     var data = await BaseApiCall.callGet(Urls.getUrl());
     weatherData = WeatherData.fromJson(data);
     var forcastData = await BaseApiCall.callGet(Urls.getdailyForecastUrl(
@@ -77,10 +76,13 @@ class HomeBlockRepository {
     "name": "Varanasi",
     "cod": 200
   };
-  getLoc() async {
-    final Location location = Location();
-    locationData = await location.getLocation();
-    await getCitiesFromLatLng(locationData.latitude!, locationData.longitude!);
+
+  getLocationData() async {
+    LocationService().determinePosition().then((value) {
+      getCitiesFromLatLng(value.latitude, value.longitude);
+    }).onError((error, stackTrace) {
+      print("Got error while determining position: $error");
+    });
   }
 
   getCitiesFromLatLng(double latitude, double longitude) async {
@@ -128,8 +130,8 @@ class HomeBlockRepository {
 
   makeForeCastData() {
     for (int i = 0; i < 4; i++) {
-      mealsListData.add(
-        MealsListData(
+      foreCastData.add(
+        ForeCastData(
           imagePath:
               "https://openweathermap.org/img/wn/${foreCastList[i].weather[0].icon}@2x.png",
           titleTxt: foreCastList[i].weather[0].main,
@@ -168,7 +170,7 @@ class HomeBlockRepository {
   makeForeCastDataFOrCity() {
     for (int i = 0; i < 4; i++) {
       forCastValuesCity.add(
-        MealsListData(
+        ForeCastData(
           imagePath:
               "https://openweathermap.org/img/wn/${foreCastListByCity[i].weather[0].icon}@2x.png",
           titleTxt: foreCastListByCity[i].weather[0].main,

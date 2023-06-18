@@ -1,5 +1,5 @@
-class MealsListData {
-  MealsListData({
+class ForeCastData {
+  ForeCastData({
     this.imagePath = '',
     this.titleTxt = '',
     this.startColor = 0xffFA7D82,
