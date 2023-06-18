@@ -31,7 +31,8 @@ class HomeBlockRepository {
     var data = await BaseApiCall.callGet(Urls.getUrl());
     weatherData = WeatherData.fromJson(data);
     var forcastData = await BaseApiCall.callGet(Urls.getdailyForecastUrl(
-        lat: weatherData.coord.lat, long: weatherData.coord.lon));
+        lat: weatherData.coord.lat.toDouble(),
+        long: weatherData.coord.lon.toDouble()));
     getForecast(forcastData);
   }
 
@@ -42,7 +43,8 @@ class HomeBlockRepository {
     var data = await BaseApiCall.callGet(Urls.getUrl(city: city));
     weatherDataByCIty = WeatherData.fromJson(data);
     var forcastData = await BaseApiCall.callGet(Urls.getdailyForecastUrl(
-        lat: weatherDataByCIty.coord.lat, long: weatherDataByCIty.coord.lon));
+        lat: weatherDataByCIty.coord.lat.toDouble(),
+        long: weatherDataByCIty.coord.lon.toDouble()));
     getForecastForCity(forcastData);
   }
 

@@ -3,16 +3,16 @@ class WeatherData {
   List<Weather> weather = [];
   String base = "";
   Main main = Main();
-  int visibility = 0;
+  num visibility = 0;
   Wind wind = Wind();
   Clouds clouds = Clouds();
-  int dt = 0;
+  num dt = 0;
   String dt_txt = "";
   Sys sys = Sys();
-  int timezone = 0;
-  int id = -1;
+  num timezone = 0;
+  num id = -1;
   String name = "";
-  int cod = 0;
+  num cod = 0;
   String message = "";
   WeatherData();
 
@@ -61,14 +61,14 @@ class WeatherData {
 }
 
 class Coord {
-  double lon = 0;
-  double lat = 0;
+  num lon = 0;
+  num lat = 0;
 
   Coord();
 
   Coord.fromJson(Map<String, dynamic> json) {
-    lon = json['lon'] ?? 0.0;
-    lat = json['lat'] ?? 0.0;
+    lon = json['lon'] ?? 0;
+    lat = json['lat'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -80,7 +80,7 @@ class Coord {
 }
 
 class Weather {
-  int id = 0;
+  num id = 0;
   String main = "";
   String description = "";
   String icon = "";
@@ -105,12 +105,12 @@ class Weather {
 }
 
 class Main {
-  double temp = 0;
-  double feelsLike = 0;
-  double tempMin = 0;
-  double tempMax = 0;
-  int pressure = 0;
-  int humidity = 0;
+  num temp = 0;
+  num feelsLike = 0;
+  num tempMin = 0;
+  num tempMax = 0;
+  num pressure = 0;
+  num humidity = 0;
 
   Main();
 
@@ -136,8 +136,8 @@ class Main {
 }
 
 class Wind {
-  double speed = 0;
-  int deg = 0;
+  num speed = 0;
+  num deg = 0;
 
   Wind();
 
@@ -155,7 +155,7 @@ class Wind {
 }
 
 class Clouds {
-  int all = 0;
+  num all = 0;
 
   Clouds();
 
@@ -171,11 +171,11 @@ class Clouds {
 }
 
 class Sys {
-  int type = 0;
-  int id = 0;
+  num type = 0;
+  num id = 0;
   String country = "";
-  int sunrise = 0;
-  int sunset = 0;
+  num sunrise = 0;
+  num sunset = 0;
 
   Sys();
 
