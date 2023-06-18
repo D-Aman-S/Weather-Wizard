@@ -1,67 +1,182 @@
+import 'package:bksmygoldassignment/common_components/bottom_tabbar.dart';
+import 'package:bksmygoldassignment/common_components/loading/loading_screen.dart';
+import 'package:bksmygoldassignment/common_components/loading/loading_widget.dart';
+import 'package:bksmygoldassignment/home_bloc/home_bloc_bloc.dart';
+import 'package:bksmygoldassignment/home_bloc/home_bloc_repository.dart';
+import 'package:bksmygoldassignment/models/tab_icons.dart';
+import 'package:bksmygoldassignment/pages/auto_detect_city/screen/auto_detect_city_page.dart';
+import 'package:bksmygoldassignment/pages/search_city/screen/search_main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'constants/color_constants.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+      create: (context) =>
+          HomeBlocBloc(HomeBlockRepository())..add(HomeBlocLoadEvent()),
+    ),
+  ], child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: BlocConsumer<HomeBlocBloc, HomeBlocState>(
+        listener: (context, state) {
+          if (state is HomeBlockLoadingState) {
+            LoadingScreen().show(context: context);
+          } else {
+            LoadingScreen().hide();
+          }
+        },
+        builder: (context, state) {
+          if (state is HomeBlockLoadedState) {
+            return const MyHomePage();
+          }
+          if (state is HomeBlockLoadedByCityState) {
+            return Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Stack(
+                  children: <Widget>[
+                    AutoDetectCity(
+                        animationController: AnimationController(
+                            duration: const Duration(milliseconds: 600),
+                            vsync: this),
+                        isSearch: true)
+                  ],
+                ));
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({
+    super.key,
+  });
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  AnimationController? animationController;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+  List<TabIconData> tabIconsList = TabIconData.tabIconsList;
+
+  Widget tabBody = Container(
+    color: background,
+  );
+
+  @override
+  void initState() {
+    tabIconsList.forEach((TabIconData tab) {
+      tab.isSelected = false;
     });
+    tabIconsList[0].isSelected = true;
+
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 600), vsync: this);
+    tabBody = AutoDetectCity(
+      animationController: animationController,
+      isSearch: false,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return BlocListener<HomeBlocBloc, HomeBlocState>(
+      listener: (context, state) {},
+      child: Container(
+        color: background,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: FutureBuilder<bool>(
+            future: getData(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (!snapshot.hasData) {
+                return const SizedBox();
+              } else {
+                return Stack(
+                  children: <Widget>[
+                    tabBody,
+                    bottomBar(),
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    );
+  }
+
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    return true;
+  }
+
+  Widget bottomBar() {
+    return Column(
+      children: <Widget>[
+        const Expanded(
+          child: SizedBox(),
+        ),
+        BottomBarView(
+          tabIconsList: tabIconsList,
+          addClick: () {},
+          changeIndex: (int index) {
+            if (index == 0) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody = AutoDetectCity(
+                    animationController: animationController,
+                    isSearch: false,
+                  );
+                });
+              });
+            } else if (index == 1) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody = TrainingScreen(
+                    animationController: animationController,
+                  );
+                });
+              });
+            }
+          },
+        ),
+      ],
     );
   }
 }

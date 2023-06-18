@@ -61,7 +61,9 @@ class LoadingScreen {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(height: 10),
-                            const CircularProgressIndicator(),
+                            const CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
                             const SizedBox(height: 20),
                             StreamBuilder(
                               stream: _text.stream,
@@ -69,6 +71,7 @@ class LoadingScreen {
                                 if (snapshot.hasData) {
                                   return Text(
                                     snapshot.data as String,
+                                    style: const TextStyle(color: Colors.white),
                                     textAlign: TextAlign.center,
                                   );
                                 } else {
