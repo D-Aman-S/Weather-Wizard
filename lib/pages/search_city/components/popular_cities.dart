@@ -89,8 +89,8 @@ class _AreaListViewState extends State<PopularCities>
                           }
                           if (index == 2) {
                             context.read<HomeBlocBloc>()
-                              ..add(const HomeBlocLoadEventByCity(
-                                  city: "newdelhi"));
+                              ..add(
+                                  const HomeBlocLoadEventByCity(city: "delhi"));
                           }
                           if (index == 3) {
                             context.read<HomeBlocBloc>()

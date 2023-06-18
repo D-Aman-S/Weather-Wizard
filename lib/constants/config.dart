@@ -6,7 +6,7 @@ class Urls {
   }
 
   static getdailyForecastUrl(
-      {String city = "varanasi", double lat = 0, double long = 0}) {
+      {String city = "varanasi", num lat = 0, num long = 0}) {
     return "https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$long&appid=$apiKey&units=metric";
   }
 

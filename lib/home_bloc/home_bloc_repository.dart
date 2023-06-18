@@ -8,11 +8,11 @@ import 'package:bksmygoldassignment/services/base_api_service.dart';
 import 'package:bksmygoldassignment/services/location_service.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
 
 class HomeBlockRepository {
   HomeBlockRepository() {
     weatherData = WeatherData.fromJson(exampleData);
-    getLocationData();
   }
   // auto location weather data
   WeatherData weatherData = WeatherData();
@@ -24,15 +24,15 @@ class HomeBlockRepository {
   List<WeatherData> foreCastListByCity = [];
   String searchCity = "";
   List<ForeCastData> forCastValuesCity = [];
-
+  late LocationData locationData;
   loadData() async {
+    await getLoc();
     foreCastList = [];
     foreCastData = [];
-    var data = await BaseApiCall.callGet(Urls.getUrl());
+    var data = await BaseApiCall.callGet(Urls.getUrl(city: city));
     weatherData = WeatherData.fromJson(data);
     var forcastData = await BaseApiCall.callGet(Urls.getdailyForecastUrl(
-        lat: weatherData.coord.lat.toDouble(),
-        long: weatherData.coord.lon.toDouble()));
+        lat: weatherData.coord.lat, long: weatherData.coord.lon));
     getForecast(forcastData);
   }
 
@@ -43,8 +43,7 @@ class HomeBlockRepository {
     var data = await BaseApiCall.callGet(Urls.getUrl(city: city));
     weatherDataByCIty = WeatherData.fromJson(data);
     var forcastData = await BaseApiCall.callGet(Urls.getdailyForecastUrl(
-        lat: weatherDataByCIty.coord.lat.toDouble(),
-        long: weatherDataByCIty.coord.lon.toDouble()));
+        lat: weatherDataByCIty.coord.lat, long: weatherDataByCIty.coord.lon));
     getForecastForCity(forcastData);
   }
 
@@ -78,14 +77,20 @@ class HomeBlockRepository {
     "name": "Varanasi",
     "cod": 200
   };
-
-  getLocationData() async {
-    LocationService().determinePosition().then((value) {
-      getCitiesFromLatLng(value.latitude, value.longitude);
-    }).onError((error, stackTrace) {
-      print("Got error while determining position: $error");
-    });
+  getLoc() async {
+    final Location location = Location();
+    locationData = await location.getLocation();
+    await getCitiesFromLatLng(locationData.latitude!, locationData.longitude!);
   }
+
+  // getLocationData() async {
+  //   LocationService().determinePosition().then((value) {
+  //     print(value);
+  //     getCitiesFromLatLng(value.latitude, value.longitude);
+  //   }).onError((error, stackTrace) {
+  //     print("Got error while determining position: $error");
+  //   });
+  // }
 
   getCitiesFromLatLng(double latitude, double longitude) async {
     final url =

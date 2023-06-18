@@ -51,7 +51,7 @@ dependencies:
   google_fonts: ^4.0.4
   email_validator: ^2.1.17
   intl: ^0.18.0
-  geolocator: ^9.0.2
+  location: ^4.4.0
 
 dev_dependencies:
   flutter_test:

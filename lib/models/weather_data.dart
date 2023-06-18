@@ -12,7 +12,7 @@ class WeatherData {
   num timezone = 0;
   num id = -1;
   String name = "";
-  num cod = 0;
+  dynamic cod = 0;
   String message = "";
   WeatherData();
 
