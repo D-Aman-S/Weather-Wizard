@@ -78,24 +78,32 @@ class _AreaListViewState extends State<AreaListView>
                       return InkWell(
                         onTap: () {
                           if (index == 0) {
-                            context.read<HomeBlocBloc>().add(
-                                const HomeBlocLoadEventByCity(city: "agra"));
+                            context.read<HomeBlocBloc>()
+                              ..add(
+                                  const HomeBlocLoadEventByCity(city: "agra"));
                           }
                           if (index == 1) {
-                            context.read<HomeBlocBloc>().add(
-                                const HomeBlocLoadEventByCity(city: "chennai"));
+                            context.read<HomeBlocBloc>()
+                              ..add(const HomeBlocLoadEventByCity(
+                                  city: "chennai"));
                           }
                           if (index == 2) {
-                            context.read<HomeBlocBloc>().add(
-                                const HomeBlocLoadEventByCity(
-                                    city: "newdelhi"));
+                            context.read<HomeBlocBloc>()
+                              ..add(const HomeBlocLoadEventByCity(
+                                  city: "newdelhi"));
                           }
                           if (index == 3) {
-                            context.read<HomeBlocBloc>().add(
-                                const HomeBlocLoadEventByCity(
-                                    city: "hyderabad"));
+                            context.read<HomeBlocBloc>()
+                              ..add(const HomeBlocLoadEventByCity(
+                                  city: "hyderabad"));
                           }
                         },
+                        focusColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8.0)),
+                        splashColor: nearlyDarkBlue.withOpacity(0.2),
                         child: AreaView(
                           imagepath: areaListData[index],
                           animation: animation,
@@ -154,18 +162,10 @@ class AreaView extends StatelessWidget {
               ),
               child: Material(
                 color: Colors.transparent,
-                child: InkWell(
-                  focusColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  splashColor: nearlyDarkBlue.withOpacity(0.2),
-                  onTap: () {},
-                  child: Column(
-                    children: <Widget>[
-                      // Image.asset(imagepath!),
-                    ],
-                  ),
+                child: Column(
+                  children: <Widget>[
+                    // Image.asset(imagepath!),
+                  ],
                 ),
               ),
             ),

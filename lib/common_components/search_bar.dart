@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({super.key});
+class CustomSearchBar extends StatefulWidget {
+  const CustomSearchBar({super.key});
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<CustomSearchBar> createState() => _CustomSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _CustomSearchBarState extends State<CustomSearchBar> {
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
